@@ -14,7 +14,7 @@ struct client_binder
 	char c_sub[SIZE];	//user input what the subject is
 	char c_stat[SIZE];	//user input status (complete of still in progress)
 	char c_desc[SIZE];	//user input description of the type of information in the binder
-	int c_priority;	//user input importance (0-5)
+	int c_priority;	//user input importance (1-5)
 };
 
 struct client_todo
@@ -22,7 +22,7 @@ struct client_todo
 	char c_name[SIZE];	//user input name of the item
 	char c_t_desc[SIZE];	//user input desciption of what should be done
 	char c_link[SIZE];	//user input link/website of where this information can be found
-	int c_t_priority;	//user input importance (0-5)
+	int c_t_priority;	//user input importance (1-5)
 };
 
 class binder
@@ -30,8 +30,10 @@ class binder
 	public:
 		binder();	//constructor
 		~binder();	//destructor
-		int copy_binder(const client_binder & to_add);	//copy the client information into a binder, return success/failure
+		int copy_binder(const client_binder & to_add); //copy the client info and store it, return success/failure
+		//int copy_binder(const binder & new_binder);	//copy the binder info into a new binder, return success/failure
 		int display_binder() const;	//display binder's contents, return success/failure
+		//int retrieve_binder(
 	private:
 		char * subject;	//what the subject is
 		char * status;	//complete or still in progress
