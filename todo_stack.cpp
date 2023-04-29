@@ -67,10 +67,20 @@ int stack::pop()
 }
 
 //Retrieve the binder from the top of the stack, but not modify the stack and return success/failure
-int stack::peek(binder & front_line)
+int stack::peek(binder & found_at_top)
 {
 	if (!head)
 		return 0;
+	if (!top_index)
+	{
+		if (!head->next)
+			return 0;
+		else
+			head->binders[4].retrieve_binder(found_at_top);
+	}
+	int i = top_index - 1;
+	head->binders[i].retrieve_binder(found_at_top);
+	return 1;
 }	
 
 //Display the binder data and return success/failure

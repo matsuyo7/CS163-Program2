@@ -33,7 +33,7 @@ class binder
 		int copy_binder(const client_binder & to_add); //copy the client info and store it, return success/failure
 		//int copy_binder(const binder & new_binder);	//copy the binder info into a new binder, return success/failure
 		int display_binder() const;	//display binder's contents, return success/failure
-		//int retrieve_binder(
+		int retrieve_binder(binder & found);	//retrieve the top of the stack and display it, return failure/success
 	private:
 		char * subject;	//what the subject is
 		char * status;	//complete or still in progress

@@ -67,6 +67,20 @@ int binder::display_binder() const
 		<< "\nPriority: " << b_priority << endl;
 	return 1;
 }
+//Retrieve the top of the stack and display it, return failure/success
+int binder::retrieve_binder(binder & found)
+{
+	if (found.subject == nullptr || found.status == nullptr || found.b_desc == nullptr || found.b_priority == 0)
+		return 0;
+	subject = new char [strlen(found.subject) + 1];
+	strcpy(subject, found.subject);
+	status = new char [strlen(found.status) + 1];
+	strcpy(status, found.status);
+	b_desc = new char [strlen(found.b_desc) + 1];
+	strcpy(b_desc, found.b_desc);
+	b_priority = found.b_priority;
+	return 1;
+}
 
 //Constructor- initialize the data memebers to their equivalent zeros
 todo::todo()

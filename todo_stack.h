@@ -21,7 +21,7 @@ class stack
 		~stack();	//destructor
 		int push(const client_binder & to_add);	//takes a binder as an argument to add the binder to the top of the stack. return success/failure
 		int pop();	//removes a binder from the top of the stack and returns success/failure
-		int peek(binder & front_line);	//retrieve the binder from the top of the stack, but not modify the stack and return success/failure
+		int peek(binder & found_at_top);	//retrieve the binder from the top of the stack, but not modify the stack and return success/failure
 		int display_all() const;	//display the binder data and return success/failure
 	private:
 		node * head;
