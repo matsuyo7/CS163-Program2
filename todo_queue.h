@@ -17,7 +17,7 @@ class queue
 	public:
 		queue();	//constructor
 		~queue();	//destructor
-		int enqueue(const todo & to_add);	//add a todo_item to the rear of the list and return success/failure
+		int enqueue(const client_todo & to_add);	//add a todo_item to the rear of the list and return success/failure
 		int dequeue();	//removes an item from the front of the list and return success/failure
 		int peek(todo & found_at_top) const;	//take the top item and store it in todo_item struct but doesn't modify the list. return success/failure
 		int display_all() const;	//displays the todo_items and return success/failure

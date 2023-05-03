@@ -70,27 +70,51 @@ int binder::display_binder() const
 //Retrieve the top of the stack and display it, return failure/success
 int binder::retrieve_binder(binder & found)
 {
-	if (found.subject == nullptr || found.status == nullptr || found.b_desc == nullptr || found.b_priority == 0)
+	if (subject == nullptr || status == nullptr || b_desc == nullptr || b_priority == 0)
 		return 0;
-	subject = new char [strlen(found.subject) + 1];
-	strcpy(subject, found.subject);
-	status = new char [strlen(found.status) + 1];
-	strcpy(status, found.status);
-	b_desc = new char [strlen(found.b_desc) + 1];
-	strcpy(b_desc, found.b_desc);
-	b_priority = found.b_priority;
+	found.subject = new char [strlen(subject) + 1];
+	strcpy(found.subject, subject);
+	found.status = new char [strlen(status) + 1];
+	strcpy(found.status, status);
+	found.b_desc = new char [strlen(b_desc) + 1];
+	strcpy(found.b_desc, b_desc);
+	found.b_priority = b_priority;
 	return 1;
 }
 
 //Constructor- initialize the data memebers to their equivalent zeros
 todo::todo()
-{}
+{
+	name = nullptr;
+	t_desc = nullptr;
+	link = nullptr;
+	t_priority = 0;
+}
 //Destructor-  deallocate the memory by deleting
 todo::~todo()
 {}
 //Copy the client information into the todo_item, return success/failure
 int todo::copy_todo(const client_todo & to_add)
-{}
+{
+	if (to_add.c_name == nullptr || to_add.c_t_desc == nullptr || to_add.c_link == nullptr || to_add.c_t_priority == 0)
+		return 0;
+	name = new char [strlen(to_add.c_name) + 1];
+	strcpy(name, to_add.c_name);
+	t_desc = new char [strlen(to_add.c_t_desc) + 1];
+	strcpy(t_desc, to_add.c_t_desc);
+	link = new char [strlen(to_add.c_link) + 1];
+	strcpy(link, to_add.c_link);
+	t_priority = to_add.c_t_priority;
+	return 1;
+}
 //Display todo item contents, return success/failure
 int todo::display_todo() const
-{}
+{
+	if (name == nullptr || t_desc == nullptr || link == nullptr || t_priority == 0)
+		return 0;
+	cout << "\nName: " << name
+		<< "\nDescription: " << t_desc
+		<< "\nLink: " << link
+		<< "\nPriority: " << t_priority << endl;
+	return 1;
+}

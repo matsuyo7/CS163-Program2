@@ -20,6 +20,8 @@ stack::~stack()
 	while (current)
 	{
 		current = current->next;
+		if (head->binders)
+			delete [] head->binders;
 		delete head;
 		head = current;
 	}
@@ -36,6 +38,8 @@ int stack::push(const client_binder & to_add)
 		head->binders = new binder[MAX];
 		top_index = 0;
 	}*/
+	if (to_add.c_sub == nullptr || to_add.c_stat == nullptr || to_add.c_desc == nullptr || to_add.c_priority == 0)
+		return 0;
 	if (!head || top_index == MAX)
 	{
 		node * temp = head;
@@ -71,15 +75,14 @@ int stack::peek(binder & found_at_top)
 {
 	if (!head)
 		return 0;
+	node * current = head->next;
 	if (!top_index)
 	{
 		if (!head->next)
 			return 0;
-		else
-			head->binders[4].retrieve_binder(found_at_top);
+		current->binders[MAX-1].retrieve_binder(found_at_top);
 	}
-	int i = top_index - 1;
-	head->binders[i].retrieve_binder(found_at_top);
+	head->binders[top_index-1].retrieve_binder(found_at_top);
 	return 1;
 }	
 
