@@ -1,4 +1,3 @@
-//#include "todo.h"
 #include <iostream>
 #include <cctype>
 #include <cstring>
@@ -49,5 +48,5 @@ class queue
 		int display_all() const;	//displays the todo_items and return success/failure
 	private:
 		q_node * rear;
-	//	int display_all(q_node * rear) const;	//recursive call to display
+		int display_all(q_node * rear) const;	//recursive call to display
 };

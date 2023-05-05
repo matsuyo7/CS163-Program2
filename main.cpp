@@ -9,41 +9,57 @@ using namespace std;
 
 //Prototypes
 int menu();
-void add_subject(client_binder & your_binder, stack & my_binder);
+void add_subject(client_binder & your_binder, stack & my_binder, queue * qptr);
 int todo_menu();
-void add_todo(client_todo & your_todo);
+void add_todo(client_todo & your_todo, queue * qptr);
 
 int main()
 {
 	client_binder your_binder;	//client binder object
 	client_todo your_todo;	//client todo object
-	binder to_find, a_binder;	//a binder object
-	todo find_todo, one_todo;	//a todo object
+	binder to_find;	//a binder object
+	todo find_todo;	//a todo object
 	stack my_binder;	//stack object
-	queue my_todo;	//queue object
-	char response {'n'};	//does the user want to add another todo
 	int pick {0};	//what option does the user want to do for a binder
 	int todo_pick {0};	//what option does the user want to do for a todo
 	
 	do
 	{
-		pick = main();
+		pick = menu();
 		//Add a subject and its todo list
 		if (pick == 1)
 		{
-			add_subject(your_binder, my_binder);
+			queue * qptr = new queue;
 			do
 			{
 				todo_pick = todo_menu();
+				//Add a todo item to the todo list
 				if (todo_pick == 1)
-				{}
+				{
+					add_todo(your_todo, qptr);
+				}
+				//Display the todo list
 				if (todo_pick == 2)
-				{}
+				{
+					qptr->display_all();
+				}
+				//Dequeue the beginning of the queue
 				if (todo_pick == 3)
-				{}
+				{
+					qptr->dequeue();
+					cout << "\nAfter dequeue: " << endl;
+					qptr->display_all();
+				}
+				//Peek at the front of the todo list
 				if (todo_pick == 4)
-				{}
+				{
+					if (qptr->peek(find_todo))
+						cout << "\nTodo at the front of the list: " << find_todo.display_todo() << endl;
+					else
+						cout << "\nCouldn't peek" << endl;
+				}
 			} while (todo_pick != 5);
+			add_subject(your_binder, my_binder, qptr);
 		}
 		//Display all todo binders and their todo list
 		if (pick == 2)
@@ -67,40 +83,6 @@ int main()
 				cout << "\nCouldn't peek" << endl;
 		}
 	} while (pick != 5);
-	//Promp the user for todo item information
-	do
-	{
-		cout << "\nName of todo item: ";
-		cin.get(your_todo.c_name, SIZE, '\n');
-		cin.ignore(SIZE, '\n');
-		cout << "\nDescription of what should be done: ";
-		cin.get(your_todo.c_t_desc, SIZE, '\n');
-		cin.ignore(SIZE, '\n');
-		cout << "\nWhere can this information be found (link/website): ";
-		cin.get(your_todo.c_link, SIZE, '\n');
-		cin.ignore(SIZE, '\n');
-		cout << "\nLevel of priority (1-5): ";
-		cin >> your_todo.c_t_priority;
-		cin.ignore(SIZE, '\n');
-		//Enqueue the information into the todo item queue
-		my_todo.enqueue(your_todo);
-		cout << "\nDo again?: ";
-		cin >> response;
-		cin.ignore(SIZE, '\n');
-	} while (response == 'y');
-	my_todo.display_all();
-	//Dequeue the beginning of the queue
-	my_todo.dequeue();
-	cout << "\nAfter dequeue: " << endl;
-	my_todo.display_all();
-	//Peek at the front of the todo list
-	if (my_todo.peek(find_todo))
-		cout << "\nPeeked" << endl;
-	else
-		cout << "\nCouldn't peek" << endl;
-	cout << "\nTodo at the front of the list: " << find_todo.display_todo() << endl;
-
-
 
 	return 0;
 }
@@ -113,7 +95,7 @@ int menu()
 	do
 	{
 		cout << "\n***TODO ORGANIZER***"
-			"\n1. Create a subject and its todo's"
+			"\n1. Create a todo list and its subject binder"
 			"\n2. Display all subjects and their todo's"
 			"\n3. Remove the most recent subject"
 			"\n4. See the most recent subject"
@@ -127,7 +109,7 @@ int menu()
 	return option;
 }
 //Add a subject and prompt a todo menu for the user to add the todo to the subject binder
-void add_subject(client_binder & your_binder, stack & my_binder)
+void add_subject(client_binder & your_binder, stack & my_binder, queue * qptr)
 {
 	//Promp the user for the binder information
 	cout << "\nWhat's the subject: ";
@@ -143,7 +125,7 @@ void add_subject(client_binder & your_binder, stack & my_binder)
 	cin >> your_binder.c_priority;
 	cin.ignore(SIZE, '\n');
 	//Push the information into the binder stack
-	my_binder.push(your_binder);
+	my_binder.push(your_binder, qptr);
 }
 //Menu for the todo list
 int todo_menu()
@@ -164,4 +146,23 @@ int todo_menu()
 			cout << "\nTry again" << endl;
 	} while (option < 1 || option > 5);
 	return option;
+}
+//Add a todo item to the todo list
+void add_todo(client_todo & your_todo, queue * qptr)
+{
+	//Promp the user for todo item information
+	cout << "\nName of todo item: ";
+	cin.get(your_todo.c_name, SIZE, '\n');
+	cin.ignore(SIZE, '\n');
+	cout << "\nDescription of what should be done: ";
+	cin.get(your_todo.c_t_desc, SIZE, '\n');
+	cin.ignore(SIZE, '\n');
+	cout << "\nWhere can this information be found (link/website): ";
+	cin.get(your_todo.c_link, SIZE, '\n');
+	cin.ignore(SIZE, '\n');
+	cout << "\nLevel of priority (1-5): ";
+	cin >> your_todo.c_t_priority;
+	cin.ignore(SIZE, '\n');
+	//Enqueue the information into the todo item queue
+	qptr->enqueue(your_todo);
 }

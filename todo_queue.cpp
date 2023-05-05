@@ -80,12 +80,27 @@ int queue::display_all() const
 {
 	if (!rear)
 		return 0;
-	q_node * current = rear->next;
+/*	q_node * current = rear->next;
 	while (current != rear)
 	{
 		current->item.display_todo();
 		current = current->next;
 	}
 	rear->item.display_todo();
-	return 1;
+	return 1;*/
+	int display = display_all(rear->next);
+	return display;
 }
+//Recursive call for display_all queue
+int queue::display_all(q_node * rear) const
+{
+	if (rear == this->rear)
+	{
+		rear->item.display_todo();
+		return 0;
+	}
+	rear->item.display_todo();
+	return display_all(rear->next);
+}
+	
+

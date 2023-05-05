@@ -15,6 +15,7 @@ binder::binder()
 	status = nullptr;
 	b_desc = nullptr;
 	b_priority = 0;
+	qptr = nullptr;
 }
 //Destructor- deallocate the memory be deleting
 binder::~binder()
@@ -29,9 +30,11 @@ binder::~binder()
 		delete [] b_desc;
 	b_desc = nullptr;
 	b_priority = 0;
+	delete qptr;
+	qptr = nullptr;
 }
 //Copy the client info and store it, return success/failure
-int binder::copy_binder(const client_binder & to_add)
+int binder::copy_binder(const client_binder & to_add, queue * queptr)
 {
 	if (to_add.c_sub == nullptr || to_add.c_stat == nullptr || to_add.c_desc == nullptr || to_add.c_priority == 0)
 		return 0;
@@ -42,6 +45,7 @@ int binder::copy_binder(const client_binder & to_add)
 	b_desc = new char [strlen(to_add.c_desc) + 1];
 	strcpy(b_desc, to_add.c_desc);
 	b_priority = to_add.c_priority;
+	qptr = queptr;
 	return 1;
 }
 //Display binder's contents, return success/failure
@@ -53,7 +57,8 @@ int binder::display_binder() const
 		<< "\nStatus: " << status
 		<< "\nDescription: " << b_desc
 		<< "\nPriority: " << b_priority << endl;
-	qptr->display_all();
+	if (qptr)
+		qptr->display_all();
 	return 1;
 }
 //Retrieve the top of the stack and display it, return failure/success

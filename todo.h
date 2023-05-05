@@ -30,7 +30,7 @@ class binder
 	public:
 		binder();	//constructor
 		~binder();	//destructor
-		int copy_binder(const client_binder & to_add); //copy the client info and store it, return success/failure
+		int copy_binder(const client_binder & to_add, queue * queptr); //copy the client info and store it, return success/failure
 		int display_binder() const;	//display binder's contents, return success/failure
 		int retrieve_binder(binder & found);	//retrieve the top of the stack and display it, return failure/success
 	private:

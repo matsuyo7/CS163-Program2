@@ -19,7 +19,7 @@ class binder
 	public:
 		binder();	//constructor
 		~binder();	//destructor
-		int copy_binder(const client_binder & to_add); //copy the client info and store it, return success/failure
+		int copy_binder(const client_binder & to_add, queue * queptr); //copy the client info and store it, return success/failure
 		int display_binder() const;	//display binder's contents, return success/failure
 		int retrieve_binder(binder & found);	//retrieve the top of the stack and display it, return failure/success
 	private:
@@ -42,7 +42,7 @@ class stack
 	public:
 		stack();	//constructor
 		~stack();	//destructor
-		int push(const client_binder & to_add);	//takes a binder as an argument to add the binder to the top of the stack. return success/failure
+		int push(const client_binder & to_add, queue * queptr);	//takes a binder as an argument to add the binder to the top of the stack. return success/failure
 		int pop();	//removes a binder from the top of the stack and returns success/failure
 		int peek(binder & found_at_top);	//retrieve the binder from the top of the stack, but not modify the stack and return success/failure
 		int display_all() const;	//display the binder data and return success/failure

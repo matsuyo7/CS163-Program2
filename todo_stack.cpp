@@ -29,15 +29,8 @@ stack::~stack()
 	top_index = 0;
 }
 //Takes a binder as an argument to add the binder to the top of the stack. return success/failure
-int stack::push(const client_binder & to_add)
+int stack::push(const client_binder & to_add, queue * queptr)
 {
-/*	if (!head)
-	{
-		head = new node;
-		head->next = nullptr;
-		head->binders = new binder[MAX];
-		top_index = 0;
-	}*/
 	if (to_add.c_sub == nullptr || to_add.c_stat == nullptr || to_add.c_desc == nullptr || to_add.c_priority == 0)
 		return 0;
 	if (!head || top_index == MAX)
@@ -48,7 +41,7 @@ int stack::push(const client_binder & to_add)
 		head->next = temp;
 		top_index = 0;
 	}
-	if (head->binders[top_index].copy_binder(to_add))
+	if (head->binders[top_index].copy_binder(to_add, queptr))
 		++top_index;
 	return 1;
 }
