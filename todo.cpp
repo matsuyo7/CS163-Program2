@@ -1,4 +1,5 @@
-#include "todo.h"
+//#include "todo.h"
+#include "todo_stack.h"
 using namespace std;
 
 //Molina Nhoung, CS163, 4/25/23, Program 2
@@ -26,6 +27,7 @@ binder::~binder()
 	status = nullptr;
 	if (b_desc)
 		delete [] b_desc;
+	b_desc = nullptr;
 	b_priority = 0;
 }
 //Copy the client info and store it, return success/failure
@@ -42,20 +44,6 @@ int binder::copy_binder(const client_binder & to_add)
 	b_priority = to_add.c_priority;
 	return 1;
 }
-//Copy the client information into a binder, return success/failure
-/*int binder::copy_binder(const binder & new_binder)
-{
-	if (new_binder.subject == nullptr || new_binder.status == nullptr || new_binder.b_desc == nullptr || new_binder.b_priority == 0)
-		return 0;
-	subject = new char [strlen(new_binder.subject) +1];
-	strcpy(subject, new_binder.subject);
-	status = new char [strlen(new_binder.status) + 1];
-	strcpy(status, new_binder.status);
-	b_desc = new char [strlen(new_binder.b_desc) + 1];
-	strcpy(b_desc, new_binder.b_desc);
-	b_priority = new_binder.b_priority;
-	return 1;
-}*/
 //Display binder's contents, return success/failure
 int binder::display_binder() const
 {
@@ -65,6 +53,7 @@ int binder::display_binder() const
 		<< "\nStatus: " << status
 		<< "\nDescription: " << b_desc
 		<< "\nPriority: " << b_priority << endl;
+	qptr->display_all();
 	return 1;
 }
 //Retrieve the top of the stack and display it, return failure/success
@@ -92,7 +81,18 @@ todo::todo()
 }
 //Destructor-  deallocate the memory by deleting
 todo::~todo()
-{}
+{
+	if (name)
+		delete [] name;
+	name = nullptr;
+	if (t_desc)
+		delete [] t_desc;
+	t_desc = nullptr;
+	if (link)
+		delete [] link;
+	link = nullptr;
+	t_priority = 0;
+}
 //Copy the client information into the todo_item, return success/failure
 int todo::copy_todo(const client_todo & to_add)
 {
@@ -116,5 +116,19 @@ int todo::display_todo() const
 		<< "\nDescription: " << t_desc
 		<< "\nLink: " << link
 		<< "\nPriority: " << t_priority << endl;
+	return 1;
+}
+//Retrieve the first of the list and add it to the given argument, return success/failure
+int todo::retrieve_todo(todo & found)
+{
+	if (name == nullptr || t_desc == nullptr || link == nullptr || t_priority == 0)
+		return 0;
+	found.name = new char [strlen(name) + 1];
+	strcpy(found.name, name);
+	found.t_desc = new char [strlen(t_desc) + 1];
+	strcpy(found.t_desc, t_desc);
+	found.link = new char [strlen(link) + 1];
+	strcpy(found.link, link);
+	found.t_priority = t_priority;
 	return 1;
 }

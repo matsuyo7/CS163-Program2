@@ -31,7 +31,6 @@ class binder
 		binder();	//constructor
 		~binder();	//destructor
 		int copy_binder(const client_binder & to_add); //copy the client info and store it, return success/failure
-		//int copy_binder(const binder & new_binder);	//copy the binder info into a new binder, return success/failure
 		int display_binder() const;	//display binder's contents, return success/failure
 		int retrieve_binder(binder & found);	//retrieve the top of the stack and display it, return failure/success
 	private:
@@ -39,6 +38,7 @@ class binder
 		char * status;	//complete or still in progress
 		char * b_desc;	//description of the type of information in the binder
 		int b_priority;	//how important is this
+//		class queue * qptr;	//pointer to the queue
 };
 
 class todo
@@ -48,6 +48,7 @@ class todo
 		~todo();	//destructor
 		int copy_todo(const client_todo & to_add);	//copy the client information into the todo_item, return success/failure
 		int display_todo() const;	//display todo item contents, return success/failure
+		int retrieve_todo(todo & found);	//retrieve the first of the list and add it to the given argument, return success/failure
 	private:
 		char * name;	//name of the todo item
 		char * t_desc;	//description of what should be done

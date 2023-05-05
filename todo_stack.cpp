@@ -81,6 +81,7 @@ int stack::peek(binder & found_at_top)
 		if (!head->next)
 			return 0;
 		current->binders[MAX-1].retrieve_binder(found_at_top);
+		return 1;
 	}
 	head->binders[top_index-1].retrieve_binder(found_at_top);
 	return 1;

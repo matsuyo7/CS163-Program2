@@ -14,7 +14,21 @@ queue::queue()
 }
 //Destructor- deallocate the memory by deleting the data members
 queue::~queue()
-{}
+{
+	if (rear)
+	{
+		q_node * current = rear;
+		rear = rear->next;
+		current->next = nullptr;
+		while (rear)
+		{
+			current = rear->next;
+			delete rear;
+			rear = current;
+		}
+		rear = nullptr;
+	}
+}
 //Add a todo_item to the rear of the list and return success/failure
 int queue::enqueue(const client_todo & to_add)
 {
@@ -54,7 +68,13 @@ int queue::dequeue()
 }
 //Take the top item and store it in todo_item struct but doesn't modify the list. return success/failure
 int queue::peek(todo & found_at_top) const
-{}
+{
+	if (!rear)
+		return 0;
+	rear->next->item.retrieve_todo(found_at_top);
+	return 1;
+}
+
 //Displays the todo_items and return success/failure
 int queue::display_all() const
 {
